@@ -201,6 +201,26 @@ If you are only accessing keys in an object that is only one level deep, you do 
 </form>
 ```
 
+### Template Tag support
+
+For usage in [Template Tag Format](https://guides.emberjs.com/release/components/template-tag-format/),
+this addon provides `changesetGet` and `changesetSet` named exports:
+
+```gjs
+import { changesetGet, changesetSet } from 'ember-changeset';
+
+export default <template>
+  <form>
+    <FormInput
+      id="first-name"
+      type="text"
+      @value={{changesetGet @changeset "person.firstName"}}
+      @onChange={{changesetSet @changeset "person.firstName"}}
+    />
+  </form>
+</template>
+```
+
 ## Limiting which keys dirty the changeset
 
 In order to limit the changes made to your changeset and it's associated `isDirty` state, you can pass in a list of `changesetKeys`.
@@ -226,7 +246,7 @@ let changeset = Changeset(model, validatorFn, validationMap, { skipValidate: tru
 
 Be sure to call `validate()` on the `changeset` before saving or committing changes.
 
-## Types
+## TypesScript
 
 ```ts
 import Component from '@glimmer/component';
@@ -255,6 +275,27 @@ Other available types include the following. Please put in a PR if you need more
 ```js
 import type { ValidationResult, ValidatorMapFunc, ValidatorAction } from 'ember-changeset/types';
 ```
+
+This project ships [Glint](https://github.com/typed-ember/glint) types,
+which allow you when using TypeScript to get strict type checking in your templates.
+
+Unless you are using [strict mode](http://emberjs.github.io/rfcs/0496-handlebars-strict-mode.html) templates
+(via [first class component templates](http://emberjs.github.io/rfcs/0779-first-class-component-templates.html)),
+Glint needs a [Template Registry](https://typed-ember.gitbook.io/glint/using-glint/ember/template-registry)
+that contains entries for the template helper provided by this addon.
+To add these registry entries automatically to your app, you just need to import `ember-changeset/template-registry`
+from somewhere in your app. When using Glint already, you will likely have a file like
+`types/glint.d.ts` where you already import glint types, so just add the import there:
+
+ ```ts
+ import '@glint/environment-ember-loose';
+ import type ChangesetRegistry from 'ember-changeset/template-registry';
+ declare module '@glint/environment-ember-loose/registry' {
+   export default interface Registry extends ChangesetRegistry, /* other addon registries */ {
+     // local entries
+   }
+ }
+ ```
 
 ## Alternative Changeset
 
