@@ -1,4 +1,5 @@
 import { BufferedChangeset } from 'validated-changeset';
+import type { HelperLike } from '@glint/template';
 
 type BufferedChangesetConstructorParameters = ConstructorParameters<typeof BufferedChangeset>;
 
@@ -14,3 +15,17 @@ type changesetFunctionsParameters = [
 export class EmberChangeset extends BufferedChangeset {}
 export function changeset(...args: changesetFunctionsParameters): EmberChangeset;
 export function Changeset(...args: changesetFunctionsParameters): EmberChangeset;
+
+type changesetGet = HelperLike<{
+  Args: {
+    Positional: [changeset: BufferedChangeset | EmberChangeset, fieldPath: string];
+  };
+  Return: unknown;
+}>;
+
+type changesetSet = HelperLike<{
+  Args: {
+    Positional: [changeset: BufferedChangeset | EmberChangeset, fieldPath: string];
+  };
+  Return: (value: unknown) => void;
+}>;
