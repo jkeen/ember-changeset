@@ -4,6 +4,7 @@
   "license": "MIT",
   "author": "Lauren Tan <arr@sugarpirate.com>",
   "scripts": {
+    "contributors": "pnpm dlx contributor-faces -e \"(*-bot|*\\[bot\\]|*-tomster|homu|bors)\"",
     "lint": "pnpm --filter '*' lint",
     "lint:fix": "pnpm --filter '*' lint:fix",
     "test": "pnpm --filter '*' test",
@@ -12,7 +13,8 @@
   "devDependencies": {
     "concurrently": "^9.1.0",
     "prettier": "^3.3.3",
-    "prettier-plugin-ember-template-tag": "^2.0.2"
+    "prettier-plugin-ember-template-tag": "^2.0.2",
+    "release-plan": "^0.10.0"
   },
   "packageManager": "pnpm@9.12.3",
   "volta": {
