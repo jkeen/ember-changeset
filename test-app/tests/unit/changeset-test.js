@@ -3111,12 +3111,18 @@ module('Unit | Utility | changeset', function (hooks) {
     });
 
     assert.true(dummyChangeset.isInvalid);
-    assert.strictEqual(get(dummyChangeset, 'error.email.validation'), 'Email already taken');
+    assert.strictEqual(
+      get(dummyChangeset, 'error.email.validation'),
+      'Email already taken',
+    );
 
     dummyChangeset.removeError('email');
     assert.true(dummyChangeset.isValid);
 
-    assert.strictEqual(get(dummyChangeset, 'error.email.validation'), undefined);
+    assert.strictEqual(
+      get(dummyChangeset, 'error.email.validation'),
+      undefined,
+    );
   });
 
   test('#removeError using an invalid key does not throw an error', async function (assert) {
@@ -3127,13 +3133,19 @@ module('Unit | Utility | changeset', function (hooks) {
     });
 
     assert.true(dummyChangeset.isInvalid);
-    assert.strictEqual(get(dummyChangeset, 'error.email.validation'), 'Email already taken');
+    assert.strictEqual(
+      get(dummyChangeset, 'error.email.validation'),
+      'Email already taken',
+    );
 
     dummyChangeset.removeError('email');
     dummyChangeset.removeError('foo');
     assert.true(dummyChangeset.isValid);
 
-    assert.strictEqual(get(dummyChangeset, 'error.email.validation'), undefined);
+    assert.strictEqual(
+      get(dummyChangeset, 'error.email.validation'),
+      undefined,
+    );
   });
 
   test('#removeError removing one error leaves the other', async function (assert) {
@@ -3148,14 +3160,26 @@ module('Unit | Utility | changeset', function (hooks) {
     });
 
     assert.true(dummyChangeset.isInvalid);
-    assert.strictEqual(get(dummyChangeset, 'error.email.validation'), 'Email already taken');
-    assert.strictEqual(get(dummyChangeset, 'error.age.validation'), 'Age is too low');
+    assert.strictEqual(
+      get(dummyChangeset, 'error.email.validation'),
+      'Email already taken',
+    );
+    assert.strictEqual(
+      get(dummyChangeset, 'error.age.validation'),
+      'Age is too low',
+    );
 
     dummyChangeset.removeError('email');
     assert.false(dummyChangeset.isValid);
 
-    assert.strictEqual(get(dummyChangeset, 'error.email.validation'), undefined);
-    assert.strictEqual(get(dummyChangeset, 'error.age.validation'), 'Age is too low');
+    assert.strictEqual(
+      get(dummyChangeset, 'error.email.validation'),
+      undefined,
+    );
+    assert.strictEqual(
+      get(dummyChangeset, 'error.age.validation'),
+      'Age is too low',
+    );
   });
 
   /**
@@ -3170,12 +3194,18 @@ module('Unit | Utility | changeset', function (hooks) {
     });
 
     assert.true(dummyChangeset.isInvalid);
-    assert.strictEqual(get(dummyChangeset, 'error.email.validation'), 'Email already taken');
+    assert.strictEqual(
+      get(dummyChangeset, 'error.email.validation'),
+      'Email already taken',
+    );
 
     dummyChangeset.removeErrors();
     assert.true(dummyChangeset.isValid);
 
-    assert.strictEqual(get(dummyChangeset, 'error.email.validation'), undefined);
+    assert.strictEqual(
+      get(dummyChangeset, 'error.email.validation'),
+      undefined,
+    );
     assert.propEqual(get(dummyChangeset, 'errors'), []);
   });
 
