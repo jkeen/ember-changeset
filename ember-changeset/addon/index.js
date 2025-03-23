@@ -145,7 +145,6 @@ export class EmberChangeset extends BufferedChangeset {
     super.removeError(key);
 
     notifyPropertyChange(this, key);
-    // Return passed-in `error`.
     return this;
   }
 

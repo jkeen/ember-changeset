@@ -3103,6 +3103,33 @@ module('Unit | Utility | changeset', function (hooks) {
    * #removeError
    */
 
+  test('#removeError does not reset field values', async function (assert) {
+    let dummyChangeset = Changeset(dummyModel);
+
+    assert.strictEqual(dummyChangeset.email, undefined);
+
+    dummyModel.setProperties({
+      email: 'test@example.com',
+      name: 'Jim Bob',
+    });
+
+    dummyChangeset.addError('email', {
+      value: 'test@example.com',
+      validation: 'Email already taken',
+    });
+
+    assert.true(dummyChangeset.isInvalid);
+    assert.strictEqual(
+      get(dummyChangeset, 'error.email.validation'),
+      'Email already taken',
+    );
+
+    dummyChangeset.removeError('email');
+    assert.true(dummyChangeset.isValid);
+    assert.strictEqual(dummyChangeset.email, 'test@example.com');
+    assert.strictEqual(dummyChangeset.name, 'Jim Bob');
+  });
+
   test('#removeError removes an error from the changeset', async function (assert) {
     let dummyChangeset = Changeset(dummyModel);
     dummyChangeset.addError('email', {
@@ -3193,10 +3220,19 @@ module('Unit | Utility | changeset', function (hooks) {
       validation: 'Email already taken',
     });
 
+    dummyChangeset.addError('age', {
+      value: '0',
+      validation: 'Age is too low',
+    });
+
     assert.true(dummyChangeset.isInvalid);
     assert.strictEqual(
       get(dummyChangeset, 'error.email.validation'),
       'Email already taken',
+    );
+    assert.strictEqual(
+      get(dummyChangeset, 'error.age.validation'),
+      'Age is too low',
     );
 
     dummyChangeset.removeErrors();
@@ -3206,6 +3242,8 @@ module('Unit | Utility | changeset', function (hooks) {
       get(dummyChangeset, 'error.email.validation'),
       undefined,
     );
+
+    assert.strictEqual(get(dummyChangeset, 'error.age.validation'), undefined);
     assert.propEqual(get(dummyChangeset, 'errors'), []);
   });
 
